@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  eventora-db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: eventora
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
