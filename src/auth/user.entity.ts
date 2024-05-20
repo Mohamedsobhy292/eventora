@@ -6,7 +6,7 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Profile } from './profile.entity';
+import { Profile } from '../users/profile.entity';
 import { Event } from 'src/events/event.entity';
 
 @Entity()
@@ -18,7 +18,6 @@ export class User {
   username: string;
 
   @Column()
-  @Column({ select: false })
   password: string;
 
   @Column({ unique: true })

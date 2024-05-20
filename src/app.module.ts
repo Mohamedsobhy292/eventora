@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { EventsModule } from './events/events.module';
 import ormConfig from 'config/orm.config';
 import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { AuthModule } from './auth/auth.module';
     }),
     EventsModule,
     AuthModule,
+    UsersModule,
   ],
 
   controllers: [AppController],

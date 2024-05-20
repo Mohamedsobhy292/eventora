@@ -1,5 +1,5 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { Profile } from 'src/auth/profile.entity';
+import { Profile } from 'src/users/profile.entity';
 import { User } from 'src/auth/user.entity';
 import { Attendee } from 'src/events/attendee.entity';
 import { Event } from 'src/events/event.entity';
