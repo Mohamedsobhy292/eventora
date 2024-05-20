@@ -15,7 +15,9 @@ export class Attendee {
   @Column()
   name: string;
 
-  @ManyToOne(() => Event, (event) => event.attendees)
-  @JoinColumn({ name: 'event_id' })
-  event: number;
+  @ManyToOne(() => Event, (event) => event.attendees, {
+    nullable: true,
+  })
+  @JoinColumn()
+  event: Event;
 }

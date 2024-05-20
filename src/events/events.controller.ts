@@ -1,17 +1,21 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { CreateAttendeeDto, CreateEventDto } from './dto';
 import { EventsService } from './events.service';
+import { AuthGuard } from '@nestjs/passport';
+import { currentUser } from 'src/auth/current-user-decorator';
 
 @Controller('events')
 export class EventsController {
   constructor(private readonly eventsService: EventsService) {}
 
+  @UseGuards(AuthGuard('jwt'))
   @Post('')
-  async create(@Body() event: CreateEventDto) {
-    return this.eventsService.create(event);
+  async create(@Body() event: CreateEventDto, @currentUser() user) {
+    return this.eventsService.create(event, user);
   }
 
   @Get()
+  @UseGuards(AuthGuard('jwt'))
   async findAll() {
     return this.eventsService.find();
   }
@@ -22,6 +26,7 @@ export class EventsController {
   }
 
   @Post(':id/attend')
+  @UseGuards(AuthGuard('jwt'))
   async attend(@Param('id') id: string, @Body() attendee: CreateAttendeeDto) {
     return this.eventsService.attend(id, attendee);
   }
