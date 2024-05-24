@@ -9,8 +9,6 @@ import { User } from 'src/auth/user.entity';
 @Injectable()
 export class EventsService {
   constructor(
-    @InjectRepository(User)
-    private readonly userRepo: Repository<Event>,
     @InjectRepository(Event)
     private readonly eventRepo: Repository<Event>,
     @InjectDataSource() private dataSource: DataSource,

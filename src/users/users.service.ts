@@ -19,14 +19,14 @@ export class UsersService {
     user: User,
   ): Promise<any> {
     try {
-      const userToUpdate = await this.userRepo.findOne({
-        where: { id: user.id },
-        relations: {
-          profile: true,
-        },
+      const hasProfile = await this.profileRepository.findOne({
+        where: { userId: user.id },
       });
 
-      if (userToUpdate?.profile?.id) {
+      console.log(hasProfile, 'hasProfile');
+
+      // if user already has a profile, throw an error
+      if (hasProfile) {
         throw new HttpException(
           'user already has profile',
           HttpStatus.BAD_REQUEST,
@@ -38,8 +38,8 @@ export class UsersService {
       });
 
       await this.userRepo.save({
-        ...userToUpdate,
-        profile: profileResult,
+        ...profileResult,
+        userId: user.id,
       });
 
       return profileResult;

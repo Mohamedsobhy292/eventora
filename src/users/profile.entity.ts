@@ -1,5 +1,11 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { User } from '../auth/user.entity';
+import { User } from 'src/auth/user.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Profile {
@@ -9,6 +15,11 @@ export class Profile {
   @Column()
   age: number;
 
-  @OneToOne(() => User, (user) => user.profile)
-  user: User;
+  @Column()
+  @ManyToOne(() => User, (u: User) => u.id, {
+    nullable: false,
+    persistence: false,
+  })
+  @JoinColumn({ name: 'userId' })
+  userId: number;
 }
