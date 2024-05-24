@@ -12,7 +12,7 @@ import { Profile } from 'src/users/profile.entity';
   imports: [
     TypeOrmModule.forFeature([User, Profile]),
     JwtModule.register({
-      secret: ' asd asd sd ad',
+      secret: process.env.AUTH_SECRET,
       signOptions: { expiresIn: '1d' },
     }),
   ],
