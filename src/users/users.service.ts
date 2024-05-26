@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
+import { Repository, DataSource } from 'typeorm';
 import { User } from 'src/auth/user.entity';
 import { Profile } from './profile.entity';
 import { CreateProfileDto } from './dto/create-profile-dto';
@@ -8,10 +8,11 @@ import { CreateProfileDto } from './dto/create-profile-dto';
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(User)
-    private readonly userRepo: Repository<User>,
     @InjectRepository(Profile)
     private readonly profileRepository: Repository<Profile>,
+    @InjectRepository(User)
+    private readonly userRepo: Repository<User>,
+    @InjectDataSource() private dataSource: DataSource,
   ) {}
 
   public async createProfile(
@@ -23,8 +24,6 @@ export class UsersService {
         where: { userId: user.id },
       });
 
-      console.log(hasProfile, 'hasProfile');
-
       // if user already has a profile, throw an error
       if (hasProfile) {
         throw new HttpException(
@@ -35,10 +34,6 @@ export class UsersService {
 
       const profileResult = await this.profileRepository.save({
         ...profile,
-      });
-
-      await this.userRepo.save({
-        ...profileResult,
         userId: user.id,
       });
 
@@ -49,5 +44,11 @@ export class UsersService {
         HttpStatus.BAD_REQUEST,
       );
     }
+  }
+
+  public async getUserProfile(user: User): Promise<any> {
+    return await this.dataSource.query(
+      `SELECT * FROM user_account LEFT JOIN profile ON profile."userId" = user_account.id WHERE user_account.id = ${user.id};`,
+    );
   }
 }

@@ -1,18 +1,8 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  OneToMany,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import { Profile } from '../users/profile.entity';
-import { Event } from 'src/events/event.entity';
-import { Attendee } from 'src/events/attendee.entity';
-import { Exclude } from 'class-transformer';
-import { join } from 'path';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity()
+import { Exclude } from 'class-transformer';
+
+@Entity('user_account')
 export class User {
   @PrimaryGeneratedColumn()
   id: number;

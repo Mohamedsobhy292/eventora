@@ -21,7 +21,7 @@ export class EventsService {
       return await this.eventRepo.save({
         ...event,
         date: event.date,
-        organizer: user,
+        organizerId: user.id,
       });
     } catch (e) {
       console.error(e);
