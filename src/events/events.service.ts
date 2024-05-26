@@ -48,10 +48,4 @@ export class EventsService {
       throw new ForbiddenException();
     }
   }
-
-  public async eventAttendees(id) {
-    return await this.dataSource.query(
-      `SELECT * FROM attendee WHERE event_id = ${id}`,
-    );
-  }
 }

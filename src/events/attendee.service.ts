@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { Attendee } from './attendee.entity';
 import { Event } from './event.entity';
 
@@ -11,6 +11,7 @@ export class AttendeeService {
     private readonly attendeeRepository: Repository<Attendee>,
     @InjectRepository(Event)
     private readonly eventRepository: Repository<Event>,
+    @InjectDataSource() private dataSource: DataSource,
   ) {}
 
   async createAttendee(user, eventId) {
@@ -43,5 +44,11 @@ export class AttendeeService {
     } catch (error) {
       throw new HttpException('error', HttpStatus.INTERNAL_SERVER_ERROR);
     }
+  }
+
+  async eventAttendees(id) {
+    return await this.dataSource.query(
+      `SELECT * FROM attendee LEFT JOIN user_account ON user_account.id = attendee."userId" WHERE attendee."eventId" = ${id};`,
+    );
   }
 }

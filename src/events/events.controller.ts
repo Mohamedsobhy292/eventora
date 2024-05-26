@@ -25,16 +25,4 @@ export class EventsController {
   async findOne(@Param('id') id: string) {
     return this.eventsService.findOne(id);
   }
-
-  @Post(':id/attend')
-  @UseGuards(AuthGuard('jwt'))
-  async attend(@Param('id') id: string, @Body() attendee: CreateAttendeeDto) {
-    return this.eventsService.attend(id, attendee);
-  }
-
-  @UseGuards(AuthGuard('jwt'))
-  @Get(':id/attendees')
-  async eventAttendeesList(@Param('id') id: string) {
-    return this.eventsService.eventAttendees(id);
-  }
 }
