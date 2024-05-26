@@ -15,9 +15,6 @@ export class Attendee {
   id: number;
 
   @Column()
-  name: string;
-
-  @Column()
   @ManyToOne(() => Event, (E: Event) => E.id, {
     nullable: false,
     persistence: false,

@@ -20,6 +20,7 @@ export class EventsController {
     return this.eventsService.find();
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return this.eventsService.findOne(id);
@@ -31,6 +32,7 @@ export class EventsController {
     return this.eventsService.attend(id, attendee);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Get(':id/attendees')
   async eventAttendeesList(@Param('id') id: string) {
     return this.eventsService.eventAttendees(id);
